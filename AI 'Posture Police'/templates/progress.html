@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress - AI Posture Pal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Fredoka+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+</head>
+<body>
+    <!-- Decorative elements -->
+    <div class="deco-blob blob-2"></div>
+    <div class="deco-element elem-2"></div>
+
+    <div id="progress-page" class="page active">
+        <div class="main-header progress-header">
+            <div class="header-left">
+                <button class="back-button" onclick="window.location.href='/'">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="page-title">Your Progress</div>
+            </div>
+            <div class="header-date">
+                <span id="current-date">Today</span>
+            </div>
+        </div>
+
+        <div class="progress-content">
+            <div class="progress-hero">
+                <div class="streak-highlight">
+                    <div class="streak-header">
+                        <i class="fas fa-fire-flame-curved"></i>
+                        <span>Current Streak</span>
+                    </div>
+                    <div class="streak-counter-large">
+                        <span id="streak-minutes">{{ user.current_streak // 60 }}</span>
+                        <span class="streak-unit">mins</span>
+                    </div>
+                    <div class="streak-goal">Goal: {{ user.goal_hours }} hours</div>
+                </div>
+
+                <div class="today-summary">
+                    <div class="summary-card">
+                        <div class="summary-icon upright">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="summary-info">
+                            <div class="summary-value">65%</div>
+                            <div class="summary-label">Upright</div>
+                        </div>
+                    </div>
+
+                    <div class="summary-card">
+                        <div class="summary-icon slouch">
+                            <i class="fas fa-user-slash"></i>
+                        </div>
+                        <div class="summary-info">
+                            <div class="summary-value">35%</div>
+                            <div class="summary-label">Slouching</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-section">
+                <div class="section-header">
+                    <h3>Today's Posture Timeline</h3>
+                    <div class="chart-controls">
+                        <span class="chart-toggle active" onclick="switchChartView('hour')">Hour</span>
+                        <span class="chart-toggle" onclick="switchChartView('day')">Day</span>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <canvas id="posture-chart"></canvas>
+                    <div class="chart-legend">
+                        <div class="legend-item">
+                            <span class="legend-color" style="background-color: #7ED7A9"></span>
+                            <span>Good Posture</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color" style="background-color: #FFBDCA"></span>
+                            <span>Slouching</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="goal-progress-section">
+                <div class="section-header">
+                    <h3>Progress to Goal</h3>
+                    <div class="refresh-button">
+                        <i class="fas fa-arrows-rotate"></i>
+                    </div>
+                </div>
+                <div class="goal-card">
+                    <div class="goal-progress-wrapper">
+                        <div id="progress-bar" class="progress-bar fancy">
+                            <div id="progress-fill" class="progress-fill fancy"></div>
+                        </div>
+                        <div id="progress-percentage" class="progress-percentage">0%</div>
+                    </div>
+
+                    <div class="milestone-markers">
+                        <div class="milestone" style="left: 25%">
+                            <div class="milestone-dot"></div>
+                            <span>25%</span>
+                        </div>
+                        <div class="milestone" style="left: 50%">
+                            <div class="milestone-dot"></div>
+                            <span>50%</span>
+                        </div>
+                        <div class="milestone" style="left: 75%">
+                            <div class="milestone-dot"></div>
+                            <span>75%</span>
+                        </div>
+                        <div class="milestone" style="left: 98%">
+                            <div class="milestone-dot"></div>
+                            <span>100%</span>
+                        </div>
+                    </div>
+
+                    <div class="goal-message">
+                        You're on your way to meeting your {{ user.goal_hours }} hour goal!
+                    </div>
+                </div>
+            </div>
+
+            <div class="tips-container">
+                <div class="tips-header">
+                    <h3><i class="fas fa-lightbulb"></i> Posture Pro Tips</h3>
+                    <button class="button tips-button" onclick="showPostureTips()">
+                        View All
+                    </button>
+                </div>
+
+                <div class="tips-slider">
+                    <div class="tip-slide active">
+                        <div class="tip-image">
+                            <img src="{{ url_for('static', filename='images/cat_character.svg') }}" alt="Tip Character">
+                        </div>
+                        <div class="tip-content">
+                            <div class="tip-title">Take Regular Breaks</div>
+                            <p>Remember to take a 5-minute break every 30 minutes to stretch!</p>
+                        </div>
+                    </div>
+                    <div class="tip-slide">
+                        <div class="tip-image">
+                            <img src="{{ url_for('static', filename='images/fox_character.svg') }}" alt="Tip Character">
+                        </div>
+                        <div class="tip-content">
+                            <div class="tip-title">Screen Position</div>
+                            <p>Keep your screen at eye level to maintain proper neck alignment!</p>
+                        </div>
+                    </div>
+                    <div class="tip-slide">
+                        <div class="tip-image">
+                            <img src="{{ url_for('static', filename='images/panda_character.svg') }}" alt="Tip Character">
+                        </div>
+                        <div class="tip-content">
+                            <div class="tip-title">Chair Support</div>
+                            <p>Sit back in your chair with proper lumbar support for your spine!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tip-navigation">
+                    <div class="tip-dot active"></div>
+                    <div class="tip-dot"></div>
+                    <div class="tip-dot"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="tips-popup" class="popup">
+        <div class="popup-content">
+            <h2>Posture Pro Tips</h2>
+            <ul class="tips-list">
+                <li><div class="tip-icon-circle"><i class="fas fa-clock"></i></div><div class="tip-text">Take a 5-min stretch break every hour</div></li>
+                <li><div class="tip-icon-circle"><i class="fas fa-chair"></i></div><div class="tip-text">Adjust your chair to support your lower back</div></li>
+                <li><div class="tip-icon-circle"><i class="fas fa-desktop"></i></div><div class="tip-text">Keep your screen at eye level to avoid slouching</div></li>
+                <li><div class="tip-icon-circle"><i class="fas fa-bell"></i></div><div class="tip-text">Set a timer to remind you to sit up straight</div></li>
+                <li><div class="tip-icon-circle"><i class="fas fa-glass-water"></i></div><div class="tip-text">Stay hydrated - it helps with energy levels</div></li>
+                <li><div class="tip-icon-circle"><i class="fas fa-dumbbell"></i></div><div class="tip-text">Strengthen your core muscles for better posture</div></li>
+            </ul>
+            <button class="button close-popup" onclick="closeTips()">Got it!</button>
+        </div>
+    </div>
+
+    <div id="fox-animation" class="popup">
+        <div class="popup-content">
+            <h2><i class="fas fa-star"></i> Great Job! <i class="fas fa-star"></i></h2>
+            <p>Wow, 30 mins of amazing posture!</p>
+            <div class="fox-container">
+                <img src="{{ url_for('static', filename='images/fox_character.svg') }}" alt="Fox" class="celebration-character">
+            </div>
+            <div class="popup-badges">
+                <div class="achievement-badge">30 Min Streak</div>
+            </div>
+            <button class="button close-popup" onclick="hidePopup('fox-animation')">Thanks!</button>
+        </div>
+    </div>
+
+    <div id="goal-celebration" class="popup">
+        <div class="popup-content celebration">
+            <h2><i class="fas fa-medal"></i> Goal Achieved! <i class="fas fa-medal"></i></h2>
+            <p id="goal-message">You sat straight for {{ user.goal_hours }} hours!</p>
+            <div class="confetti">
+                <span></span><span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="celebration-characters">
+                <img src="{{ url_for('static', filename='images/fox_character.svg') }}" alt="Fox" class="celebration-character">
+                <img src="{{ url_for('static', filename='images/cat_character.svg') }}" alt="Cat" class="celebration-character">
+                <img src="{{ url_for('static', filename='images/panda_character.svg') }}" alt="Panda" class="celebration-character">
+            </div>
+            <div class="popup-badges">
+                <div class="achievement-badge gold">Daily Goal Crusher</div>
+            </div>
+            <button class="button celebration-button" onclick="hidePopup('goal-celebration')">Awesome!</button>
+        </div>
+    </div>
+
+    <footer>Developed by Navya Singh</footer>
+
+    <script src="{{ url_for('static', filename='animations.js') }}"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const today = new Date();
+            const options = { weekday: 'long', month: 'short', day: 'numeric' };
+            document.getElementById('current-date').textContent = today.toLocaleDateString('en-US', options);
+            initProgressChart();
+            updateProgress();
+            setInterval(updateProgress, 10000);
+
+            const tipDots = document.querySelectorAll('.tip-dot');
+            setInterval(() => {
+                const activeDot = document.querySelector('.tip-dot.active');
+                activeDot.classList.remove('active');
+                const nextDot = activeDot.nextElementSibling || tipDots[0];
+                nextDot.classList.add('active');
+            }, 5000);
+        });
+    </script>
+</body>
+</html>

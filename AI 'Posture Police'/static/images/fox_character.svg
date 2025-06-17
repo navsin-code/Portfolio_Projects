@@ -1,0 +1,41 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Body -->
+  <ellipse cx="100" cy="120" rx="50" ry="40" fill="#FF8E8E"/>
+  
+  <!-- Head -->
+  <circle cx="100" cy="70" r="35" fill="#FF8E8E"/>
+  
+  <!-- Ears -->
+  <path d="M70 50 L85 65 L65 70 Z" fill="#FF8E8E" stroke="#FF7070" stroke-width="2"/>
+  <path d="M130 50 L115 65 L135 70 Z" fill="#FF8E8E" stroke="#FF7070" stroke-width="2"/>
+  
+  <!-- Inner Ears -->
+  <path d="M73 55 L82 65 L70 68 Z" fill="#FFBDCA"/>
+  <path d="M127 55 L118 65 L130 68 Z" fill="#FFBDCA"/>
+  
+  <!-- Eyes -->
+  <circle cx="85" cy="70" r="5" fill="white"/>
+  <circle cx="115" cy="70" r="5" fill="white"/>
+  <circle cx="85" cy="70" r="2" fill="#333333"/>
+  <circle cx="115" cy="70" r="2" fill="#333333"/>
+  
+  <!-- Muzzle -->
+  <ellipse cx="100" cy="85" rx="15" ry="10" fill="white"/>
+  
+  <!-- Nose -->
+  <circle cx="100" cy="82" r="4" fill="#333333"/>
+  
+  <!-- Mouth -->
+  <path d="M95 88 Q100 92 105 88" stroke="#333333" stroke-width="2" stroke-linecap="round"/>
+  
+  <!-- Tail -->
+  <path d="M150 120 Q170 100 175 130 Q180 140 160 140 Q150 140 150 120 Z" fill="#FF8E8E" stroke="#FF7070" stroke-width="2"/>
+  
+  <!-- Arms -->
+  <path d="M70 110 Q60 120 55 135" stroke="#FF7070" stroke-width="5" stroke-linecap="round"/>
+  <path d="M130 110 Q140 120 145 135" stroke="#FF7070" stroke-width="5" stroke-linecap="round"/>
+  
+  <!-- Legs -->
+  <path d="M80 150 Q75 160 75 170" stroke="#FF7070" stroke-width="5" stroke-linecap="round"/>
+  <path d="M120 150 Q125 160 125 170" stroke="#FF7070" stroke-width="5" stroke-linecap="round"/>
+</svg>

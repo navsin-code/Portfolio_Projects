@@ -1,0 +1,23 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Cloud shapes -->
+  <path d="M50,40 C50,24.5 62.5,12 78,12 C93.5,12 106,24.5 106,40 C106,40 106,40 106,40 C106,40 120,40 120,40 C131,40 140,49 140,60 C140,71 131,80 120,80 L50,80 C39,80 30,71 30,60 C30,49 39,40 50,40 Z" fill="#C5F7E2" opacity="0.7"/>
+  
+  <!-- Little stars -->
+  <path d="M20,130 L23,140 L30,140 L25,145 L28,155 L20,150 L12,155 L15,145 L10,140 L17,140 Z" fill="#FFBDCA" />
+  <path d="M50,160 L52,168 L58,168 L54,172 L56,180 L50,176 L44,180 L46,172 L42,168 L48,168 Z" fill="#A6D1E6" />
+  <path d="M80,145 L83,155 L90,155 L85,160 L88,170 L80,165 L72,170 L75,160 L70,155 L77,155 Z" fill="#D8C2FF" />
+  <path d="M110,165 L112,173 L118,173 L114,177 L116,185 L110,181 L104,185 L106,177 L102,173 L108,173 Z" fill="#FFF2CC" />
+  <path d="M140,130 L143,140 L150,140 L145,145 L148,155 L140,150 L132,155 L135,145 L130,140 L137,140 Z" fill="#FFBDCA" />
+  <path d="M170,160 L172,168 L178,168 L174,172 L176,180 L170,176 L164,180 L166,172 L162,168 L168,168 Z" fill="#A6D1E6" />
+  
+  <!-- Dotted lines -->
+  <circle cx="20" cy="100" r="3" fill="#D8C2FF" />
+  <circle cx="40" cy="100" r="3" fill="#D8C2FF" />
+  <circle cx="60" cy="100" r="3" fill="#D8C2FF" />
+  <circle cx="80" cy="100" r="3" fill="#D8C2FF" />
+  <circle cx="100" cy="100" r="3" fill="#D8C2FF" />
+  <circle cx="120" cy="100" r="3" fill="#D8C2FF" />
+  <circle cx="140" cy="100" r="3" fill="#D8C2FF" />
+  <circle cx="160" cy="100" r="3" fill="#D8C2FF" />
+  <circle cx="180" cy="100" r="3" fill="#D8C2FF" />
+</svg>

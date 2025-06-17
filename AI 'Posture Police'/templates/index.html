@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Posture Pal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Fredoka+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+</head>
+<body>
+    <!-- Decorative elements -->
+    <img src="{{ url_for('static', filename='images/blob-1.svg') }}" alt="Decorative Blob" class="deco-blob blob-1">
+    <img src="{{ url_for('static', filename='images/blob-2.svg') }}" alt="Decorative Blob" class="deco-blob blob-2">
+    <img src="{{ url_for('static', filename='images/wave-bg.svg') }}" alt="Decorative Element" class="deco-element elem-1">
+
+
+    <div id="front-page" class="page active">
+        <div class="main-header">
+            <div class="header-left">
+                <img src="{{ url_for('static', filename='images/posture_icon.svg') }}" alt="Posture Icon" class="dash-icon">
+                <div class="logo-text">Posture Pal</div>
+            </div>
+            <div class="user-greeting">
+                <div class="user-name">{{ user.name }} <span class="wave">👋</span></div>
+                <div class="goal-info">Goal: <span>{{ user.goal_hours }} hours</span></div>
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div class="hero-section">
+                <div class="status-card">
+                    <div class="card-header">
+                        <h2>Posture Status</h2>
+                        <div class="status-badge" id="status-badge">Monitoring...</div>
+                    </div>
+                    <div class="status-body">
+                        <div class="status-icon-container">
+                            <i id="posture-icon" class="fas fa-user"></i>
+                        </div>
+                        <div class="status-text">
+                            <p id="posture-status" class="status-message">Checking your posture...</p>
+                            <div class="streak-container">
+                                <div class="streak-label">Current streak</div>
+                                <div class="streak-value">
+                                    <span id="streak-counter">0</span>
+                                    <span class="streak-unit">mins</span>
+                                </div>
+                            </div>
+                            <div class="progress-indicator">
+                                <div class="progress-track">
+                                    <div id="progress-bar-mini" class="progress-fill"></div>
+                                </div>
+                                <div id="progress-percent">0%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="motivation-card">
+                    <div class="card-header">
+                        <h2>Today's Vibe</h2>
+                        <div class="purpose-tag">
+                            <i class="
+                            {% if user.purpose == 'Meeting' %}fas fa-video
+                            {% elif user.purpose == 'Work' %}fas fa-briefcase
+                            {% elif user.purpose == 'Study' %}fas fa-book
+                            {% elif user.purpose == 'Gaming' %}fas fa-gamepad
+                            {% else %}fas fa-star{% endif %}
+                            "></i>
+                            <span>{{ user.purpose }}</span>
+                        </div>
+                    </div>
+                    <div class="motivation-content">
+                        <p id="encourage-text" class="encourage-text">
+                            {% if user.purpose == "Meeting" %}
+                                Meetings can be boring, but let's keep our posture straight! Your back will thank you later.
+                            {% elif user.purpose == "Work" %}
+                                Work hard, sit smart—keep that posture on point all day long!
+                            {% elif user.purpose == "Study" %}
+                                Studying is tough, but good posture keeps your mind sharp and focused!
+                            {% elif user.purpose == "Gaming" %}
+                                Gaming marathon? Epic! Just remember to level up your posture too!
+                            {% else %}
+                                Let's smash that {{ user.goal_hours }} hour goal today! Your future self will be grateful!
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="character-section">
+                <img src="{{ url_for('static', filename='images/deco-2.svg') }}" alt="Decorative" class="deco-floating">
+                <div id="character" class="character">
+                    <img src="{{ url_for('static', filename='images/fox_character.svg') }}" alt="Character" class="character-img">
+                    <div class="speech-bubble fancy">
+                        <p id="character-speech">I'm watching your posture!</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="navigation-cards">
+                <div class="nav-card" onclick="window.location.href='/progress'">
+                    <div class="nav-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="nav-title">Progress</div>
+                    <p class="nav-description">Track your posture journey</p>
+                </div>
+
+                <div class="nav-card" onclick="window.location.href='/leaderboard'">
+                    <div class="nav-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="nav-title">Leaderboard</div>
+                    <p class="nav-description">See how you rank</p>
+                </div>
+
+                <div class="nav-card" onclick="window.location.href='/meetings'">
+                    <div class="nav-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="nav-title">Meetings</div>
+                    <p class="nav-description">Schedule & reminders</p>
+                </div>
+
+                <div class="nav-card" onclick="window.location.href='/todos'">
+                    <div class="nav-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <div class="nav-title">To-Do List</div>
+                    <p class="nav-description">Manage your tasks</p>
+                </div>
+            </div>
+
+            <div class="quick-tips">
+                <div class="tips-header">
+                    <h3><i class="fas fa-lightbulb"></i> Quick Posture Tips</h3>
+                </div>
+                <div class="tips-carousel">
+                    <div class="tip-card">
+                        <div class="tip-icon">💻</div>
+                        <p>Keep your screen at eye level to maintain a neutral neck position</p>
+                    </div>
+                    <div class="tip-card">
+                        <div class="tip-icon">🪑</div>
+                        <p>Sit with your back against the chair and feet flat on the floor</p>
+                    </div>
+                    <div class="tip-card">
+                        <div class="tip-icon">⏰</div>
+                        <p>Take short breaks every 30 minutes to stretch and reset</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="fox-animation" class="popup">
+        <div class="popup-content">
+            <h2><i class="fas fa-star"></i> Great Job! <i class="fas fa-star"></i></h2>
+            <p>Wow, 30 mins of amazing posture!</p>
+            <div class="fox-container">
+                <img src="{{ url_for('static', filename='images/fox_character.svg') }}" alt="Fox" class="celebration-character">
+            </div>
+            <div class="popup-badges">
+                <div class="achievement-badge">30 Min Streak</div>
+            </div>
+            <button class="button close-popup" onclick="hidePopup('fox-animation')">Thanks!</button>
+        </div>
+    </div>
+
+    <div id="goal-celebration" class="popup">
+        <div class="popup-content celebration">
+            <h2><i class="fas fa-medal"></i> Goal Achieved! <i class="fas fa-medal"></i></h2>
+            <p id="goal-message">You sat straight for {{ user.goal_hours }} hours!</p>
+            <div class="confetti">
+                <span></span><span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="celebration-characters">
+                <img src="{{ url_for('static', filename='images/fox_character.svg') }}" alt="Fox" class="celebration-character">
+                <img src="{{ url_for('static', filename='images/cat_character.svg') }}" alt="Cat" class="celebration-character">
+                <img src="{{ url_for('static', filename='images/panda_character.svg') }}" alt="Panda" class="celebration-character">
+            </div>
+            <div class="popup-badges">
+                <div class="achievement-badge gold">Daily Goal Crusher</div>
+            </div>
+            <button class="button celebration-button" onclick="hidePopup('goal-celebration')">Awesome!</button>
+        </div>
+    </div>
+
+    <footer>Developed by Navya Singh, R Chithra, Shreya, Sanjana TM</footer>
+
+    <script src="{{ url_for('static', filename='animations.js') }}"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Start real-time posture updates
+            checkPostureData();
+
+            // Update character speech periodically
+            setInterval(updateCharacterSpeech, 15000);
+
+            // Animate the tip cards
+            animateTipCards();
+        });
+
+        function animateTipCards() {
+            anime({
+                targets: '.tip-card',
+                translateY: [20, 0],
+                opacity: [0, 1],
+                delay: anime.stagger(150),
+                easing: 'easeOutQuad',
+                duration: 800
+            });
+        }
+    </script>
+</body>
+</html>

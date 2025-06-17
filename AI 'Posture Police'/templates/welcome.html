@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome - AI Posture Pal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Fredoka+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body class="welcome-page">
+    <!-- Decorative elements restored for scrollable page -->
+     <img src="{{ url_for('static', filename='images/blob-1.svg') }}" alt="Decorative Blob" class="deco-blob blob-1">
+    <img src="{{ url_for('static', filename='images/blob-2.svg') }}" alt="Decorative Blob" class="deco-blob blob-2">
+    <img src="{{ url_for('static', filename='images/blob-3.svg') }}" alt="Decorative Element" class="deco-element elem-1">
+     <img src="{{ url_for('static', filename='images/blob-1.svg') }}" alt="Decorative Blob" class="deco-blob blob-1">
+    <img src="{{ url_for('static', filename='images/wave-bg.svg') }}" alt="Decorative Blob" class="deco-blob blob-2">
+    <img src="{{ url_for('static', filename='images/blob-1.svg') }}" alt="Decorative Element" class="deco-element elem-1">
+
+
+    <div class="welcome-container">
+        <div class="popup active">
+            <div class="welcome-header">
+                <div class="welcome-title-container">
+                    <img src="{{ url_for('static', filename='images/posture_icon.svg') }}" alt="Posture Icon" class="welcome-icon">
+                    <div>
+                        <h1 class="welcome-title">Posture Pal</h1>
+                        <div class="welcome-subtitle">Your posture bestie <i class="fas fa-heart"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="welcome-intro">
+                <div class="character-row">
+                    <img src="{{ url_for('static', filename='images/fox_character.svg') }}" alt="Fox" class="welcome-character">
+                    <img src="{{ url_for('static', filename='images/cat_character.svg') }}" alt="Cat" class="welcome-character">
+                    <img src="{{ url_for('static', filename='images/panda_character.svg') }}" alt="Panda" class="welcome-character">
+                    <img src="{{ url_for('static', filename='images/bunny_character.svg') }}" alt="Bunny" class="welcome-character">
+                </div>
+                <p class="welcome-text">Let's set up your profile and start your posture journey! <i class="fas fa-bolt"></i></p>
+            </div>
+
+            <form method="POST" action="{{ url_for('submit_user') }}" class="welcome-form">
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> What's your name?</label>
+                    <input type="text" name="name" placeholder="Your name" required>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-birthday-cake"></i> How old are you?</label>
+                    <input type="number" name="age" placeholder="Your age" min="1" max="100" required>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-question-circle"></i> Why are you using this app?</label>
+                    <div class="purpose-selector">
+                        <div class="purpose-option">
+                            <input type="radio" name="purpose" id="meeting" value="Meeting">
+                            <label for="meeting" class="purpose-label">
+                                <i class="fas fa-video"></i>
+                                <span>Meetings</span>
+                            </label>
+                        </div>
+                        <div class="purpose-option">
+                            <input type="radio" name="purpose" id="work" value="Work">
+                            <label for="work" class="purpose-label">
+                                <i class="fas fa-briefcase"></i>
+                                <span>Work</span>
+                            </label>
+                        </div>
+                        <div class="purpose-option">
+                            <input type="radio" name="purpose" id="study" value="Study">
+                            <label for="study" class="purpose-label">
+                                <i class="fas fa-book"></i>
+                                <span>Study</span>
+                            </label>
+                        </div>
+                        <div class="purpose-option">
+                            <input type="radio" name="purpose" id="gaming" value="Gaming">
+                            <label for="gaming" class="purpose-label">
+                                <i class="fas fa-gamepad"></i>
+                                <span>Gaming</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-bullseye"></i> What's your daily posture goal?</label>
+                    <div class="slider-container">
+                        <input type="range" name="goal_hours" min="0.5" max="8" step="0.5" value="2" class="slider" id="goalSlider">
+                        <span id="sliderValue">2 hours</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="button welcome-button">
+                    <span>Let's Go!</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </form>
+
+            <div class="character-preview">
+                <img src="{{ url_for('static', filename='images/fox_character.svg') }}" alt="Character" class="character-avatar bounce-animation">
+                <div class="speech-bubble">
+                    <p class="character-speech">I'll help you maintain better posture!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="wave-bg"></div>
+    <footer>Developed by Navya Singh</footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script>
+        const slider = document.getElementById('goalSlider');
+        const output = document.getElementById('sliderValue');
+
+        slider.oninput = function() {
+            output.innerHTML = this.value + " hours";
+        }
+
+        document.getElementById('work').checked = true;
+
+        anime({
+            targets: '.deco-blob',
+            translateY: function() { return anime.random(-15, 15); },
+            translateX: function() { return anime.random(-15, 15); },
+            scale: function() { return 0.9 + anime.random(0, 0.3); },
+            easing: 'easeInOutQuad',
+            duration: 4000,
+            delay: anime.stagger(1000),
+            direction: 'alternate',
+            loop: true
+        });
+
+        anime({
+            targets: '.deco-element',
+            rotate: function() { return anime.random(-15, 15); },
+            translateY: function() { return anime.random(-10, 10); },
+            easing: 'easeInOutSine',
+            duration: 3000,
+            delay: anime.stagger(500),
+            direction: 'alternate',
+            loop: true
+        });
+
+        anime({
+            targets: '.welcome-character',
+            translateY: function() { return anime.random(-8, 8); },
+            easing: 'easeInOutQuad',
+            duration: 2000,
+            delay: anime.stagger(200),
+            direction: 'alternate',
+            loop: true
+        });
+    </script>
+</body>
+</html>

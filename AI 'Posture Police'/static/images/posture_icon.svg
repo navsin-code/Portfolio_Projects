@@ -1,0 +1,20 @@
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="50" cy="50" r="48" fill="#C5F7E2" stroke="#A6D1E6" stroke-width="4"/>
+  
+  <!-- Head -->
+  <circle cx="50" cy="25" r="12" fill="#FFBDCA"/>
+  
+  <!-- Body -->
+  <path d="M50 38 L50 65 M40 50 L60 50 M45 75 L50 65 L55 75" stroke="#A6D1E6" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Chair Back -->
+  <path d="M30 80 L70 80 M35 80 L35 55 M65 80 L65 55" stroke="#D8C2FF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Good Posture Line -->
+  <path d="M50 22 L50 78" stroke="#7ED7A9" stroke-width="2" stroke-dasharray="4 2" stroke-linecap="round"/>
+  
+  <!-- Sparkles -->
+  <path d="M75 30 L80 30 M77.5 27.5 L77.5 32.5" stroke="#FFD166" stroke-width="2" stroke-linecap="round"/>
+  <path d="M25 35 L30 35 M27.5 32.5 L27.5 37.5" stroke="#FFD166" stroke-width="2" stroke-linecap="round"/>
+  <path d="M70 60 L75 60 M72.5 57.5 L72.5 62.5" stroke="#FFD166" stroke-width="2" stroke-linecap="round"/>
+</svg>

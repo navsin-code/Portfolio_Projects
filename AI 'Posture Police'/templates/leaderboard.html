@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard - AI Posture Pal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+</head>
+<body>
+    <div id="leaderboard-page" class="page active">
+        <div class="page-header">
+            <button class="back-button" onclick="window.location.href='/'">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <h2>Leaderboard</h2>
+        </div>
+
+        <div class="leaderboard-container">
+            <div class="trophy-container">
+                <i class="fas fa-trophy trophy-icon"></i>
+                <h3>Posture Champions</h3>
+            </div>
+
+            <div id="leaderboard-list">
+                {% for entry in leaderboard %}
+                    <div class="leaderboard-item {% if entry.name == user.name %}highlight{% endif %} rank-{{ loop.index }}">
+                        <div class="rank">{{ loop.index }}</div>
+                        <div class="user-info">
+                            <span class="user-name">{{ entry.name }}</span>
+                            {% if loop.index == 1 %}
+                                <span class="rank-badge first"><i class="fas fa-crown"></i></span>
+                            {% elif loop.index == 2 %}
+                                <span class="rank-badge second"><i class="fas fa-medal"></i></span>
+                            {% elif loop.index == 3 %}
+                                <span class="rank-badge third"><i class="fas fa-award"></i></span>
+                            {% endif %}
+                        </div>
+                        <div class="streak-info">
+                            <span class="streak-value">{{ entry.streak }}</span>
+                            <span class="streak-label">mins</span>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="leaderboard-motivation">
+            <img src="{{ url_for('static', filename='images/panda_character.svg') }}" alt="Motivation Character" class="motivation-character">
+            <div class="speech-bubble wide">
+                <p>Keep up the good posture to climb the ranks! 💪</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="fox-animation" class="popup">
+        <h2>Great Job!</h2>
+        <p>Wow, 30 mins of great posture! 🦊</p>
+        <div class="fox-container">
+            <img src="{{ url_for('static', filename='images/fox_character.svg') }}" alt="Fox" class="celebration-character">
+        </div>
+    </div>
+
+    <div id="goal-celebration" class="popup">
+        <h2>Goal Achieved!</h2>
+        <p id="goal-message">You sat straight for {{ user.goal_hours }} hours!</p>
+        <div class="confetti">
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div class="celebration-characters">
+            <img src="{{ url_for('static', filename='images/fox_character.svg') }}" alt="Fox" class="celebration-character">
+            <img src="{{ url_for('static', filename='images/cat_character.svg') }}" alt="Cat" class="celebration-character">
+            <img src="{{ url_for('static', filename='images/panda_character.svg') }}" alt="Panda" class="celebration-character">
+        </div>
+    </div>
+
+    <footer>Developed by Navya Singh</footer>
+
+    <script src="{{ url_for('static', filename='animations.js') }}"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate leaderboard entries
+            animateLeaderboard();
+        });
+
+        function animateLeaderboard() {
+            anime({
+                targets: '.leaderboard-item',
+                translateY: [50, 0],
+                opacity: [0, 1],
+                delay: anime.stagger(100),
+                easing: 'easeOutQuad',
+                duration: 500
+            });
+        }
+    </script>
+</body>
+</html>

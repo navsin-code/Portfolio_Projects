@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List - AI Posture Pal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Fredoka+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+</head>
+<body>
+    <!-- Decorative elements -->
+    <div class="deco-blob blob-1"></div>
+    <div class="deco-blob blob-2"></div>
+    <div class="deco-element elem-1"></div>
+
+    <div class="page active">
+        <div class="main-header">
+            <div class="header-left">
+                <a href="/" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+                <img src="{{ url_for('static', filename='images/posture_icon.svg') }}" alt="Posture Icon" class="dash-icon">
+                <div class="logo-text">To-Do List</div>
+            </div>
+            <div class="user-greeting">
+                <div class="user-name">{{ user.name }} <span class="wave">👋</span></div>
+                <div class="goal-info">Stay organized & sit straight!</div>
+            </div>
+        </div>
+
+        <div class="page-content">
+            <!-- Add Task Section -->
+            <div class="add-task-section">
+                <div class="task-card">
+                    <h3><i class="fas fa-plus-circle"></i> Add New Task</h3>
+                    <form action="/add_todo" method="POST" class="add-task-form">
+                        <div class="input-group">
+                            <input type="text" name="task" placeholder="Enter your task..." required>
+                            <button type="submit" class="add-btn">
+                                <i class="fas fa-plus"></i> Add
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Task Categories -->
+            <div class="task-categories">
+                <div class="category-section">
+                    <h4><i class="fas fa-clock" style="color: #FFB74D;"></i> To-Do</h4>
+                    <div class="task-list" id="todo-list">
+                        {% for todo in user.todos %}
+                            {% if todo.status == 'to-do' %}
+                                <div class="task-item" data-id="{{ todo.id }}">
+                                    <div class="task-content">
+                                        <div class="task-text">{{ todo.task }}</div>
+                                        <div class="task-date">{{ todo.created_at[:10] }}</div>
+                                    </div>
+                                    <div class="task-actions">
+                                        <button onclick="updateTaskStatus({{ todo.id }}, 'in-progress')" class="action-btn progress-btn">
+                                            <i class="fas fa-play"></i>
+                                        </button>
+                                        <button onclick="updateTaskStatus({{ todo.id }}, 'done')" class="action-btn done-btn">
+                                            <i class="fas fa-check"></i>
+                                        </button>
+                                        <button onclick="deleteTask({{ todo.id }})" class="action-btn delete-btn">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="category-section">
+                    <h4><i class="fas fa-spinner" style="color: #42A5F5;"></i> In Progress</h4>
+                    <div class="task-list" id="progress-list">
+                        {% for todo in user.todos %}
+                            {% if todo.status == 'in-progress' %}
+                                <div class="task-item in-progress" data-id="{{ todo.id }}">
+                                    <div class="task-content">
+                                        <div class="task-text">{{ todo.task }}</div>
+                                        <div class="task-date">{{ todo.created_at[:10] }}</div>
+                                    </div>
+                                    <div class="task-actions">
+                                        <button onclick="updateTaskStatus({{ todo.id }}, 'to-do')" class="action-btn todo-btn">
+                                            <i class="fas fa-undo"></i>
+                                        </button>
+                                        <button onclick="updateTaskStatus({{ todo.id }}, 'done')" class="action-btn done-btn">
+                                            <i class="fas fa-check"></i>
+                                        </button>
+                                        <button onclick="deleteTask({{ todo.id }})" class="action-btn delete-btn">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="category-section">
+                    <h4><i class="fas fa-check-circle" style="color: #66BB6A;"></i> Done</h4>
+                    <div class="task-list" id="done-list">
+                        {% for todo in user.todos %}
+                            {% if todo.status == 'done' %}
+                                <div class="task-item done" data-id="{{ todo.id }}">
+                                    <div class="task-content">
+                                        <div class="task-text">{{ todo.task }}</div>
+                                        <div class="task-date">{{ todo.created_at[:10] }}</div>
+                                    </div>
+                                    <div class="task-actions">
+                                        <button onclick="updateTaskStatus({{ todo.id }}, 'in-progress')" class="action-btn progress-btn">
+                                            <i class="fas fa-undo"></i>
+                                        </button>
+                                        <button onclick="deleteTask({{ todo.id }})" class="action-btn delete-btn">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Task Summary -->
+            <div class="task-summary">
+                <div class="summary-card">
+                    <div class="summary-stat">
+                        <span class="stat-number">{{ user.todos|selectattr('status', 'equalto', 'to-do')|list|length }}</span>
+                        <span class="stat-label">To-Do</span>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-stat">
+                        <span class="stat-number">{{ user.todos|selectattr('status', 'equalto', 'in-progress')|list|length }}</span>
+                        <span class="stat-label">In Progress</span>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-stat">
+                        <span class="stat-number">{{ user.todos|selectattr('status', 'equalto', 'done')|list|length }}</span>
+                        <span class="stat-label">Completed</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>Developed by Navya Singh</footer>
+
+    <script src="{{ url_for('static', filename='animations.js') }}"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        function updateTaskStatus(taskId, newStatus) {
+            const formData = new FormData();
+            formData.append('todo_id', taskId);
+            formData.append('status', newStatus);
+
+            fetch('/update_todo_status', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        function deleteTask(taskId) {
+            if (confirm('Are you sure you want to delete this task?')) {
+                const formData = new FormData();
+                formData.append('todo_id', taskId);
+
+                fetch('/delete_todo', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        }
+
+        // Add some animations on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const taskItems = document.querySelectorAll('.task-item');
+            taskItems.forEach((item, index) => {
+                anime({
+                    targets: item,
+                    translateY: [30, 0],
+                    opacity: [0, 1],
+                    delay: index * 100,
+                    duration: 600,
+                    easing: 'easeOutCubic'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meetings - AI Posture Pal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+</head>
+<body>
+    <div id="meetings-page" class="page active">
+        <div class="page-header">
+            <button class="back-button" onclick="window.location.href='/'">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <h2>Your Meetings</h2>
+        </div>
+
+        <div class="meetings-container">
+            <div class="add-meeting-container">
+                <h3>Add New Meeting</h3>
+                <form method="POST" action="{{ url_for('meetings') }}" class="meeting-form">
+                    <div class="form-group">
+                        <label><i class="fas fa-calendar-day"></i> Date</label>
+                        <input type="date" name="date" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-clock"></i> Time</label>
+                        <input type="time" name="time" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-bell"></i> Reminder (minutes before)</label>
+                        <select name="reminder">
+                            <option value="5">5 minutes</option>
+                            <option value="10">10 minutes</option>
+                            <option value="15">15 minutes</option>
+                            <option value="30">30 minutes</option>
+                            <option value="60">1 hour</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="button">
+                        <i class="fas fa-plus"></i> Add Meeting
+                    </button>
+                </form>
+            </div>
+
+            <div class="meetings-list-container">
+                <h3>Upcoming Meetings</h3>
+                <div id="meetings-list" class="meetings-list">
+                    <!-- Meetings will be loaded dynamically -->
+                    <div class="loading-meetings">
+                        <i class="fas fa-sync fa-spin"></i>
+                        <p>Loading your meetings...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="meetings-character">
+            <img src="{{ url_for('static', filename='images/bunny_character.svg') }}" alt="Meeting Character" class="meeting-character">
+            <div class="speech-bubble">
+                <p>I'll remind you about your meetings so you can stay focused!</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="fox-animation" class="popup">
+        <h2>Great Job!</h2>
+        <p>Wow, 30 mins of great posture! 🦊</p>
+        <div class="fox-container">
+            <img src="{{ url_for('static', filename='images/fox_character.svg') }}" alt="Fox" class="celebration-character">
+        </div>
+    </div>
+
+    <div id="goal-celebration" class="popup">
+        <h2>Goal Achieved!</h2>
+        <p id="goal-message">You sat straight for {{ user.goal_hours }} hours!</p>
+        <div class="confetti">
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div class="celebration-characters">
+            <img src="{{ url_for('static', filename='images/fox_character.svg') }}" alt="Fox" class="celebration-character">
+            <img src="{{ url_for('static', filename='images/cat_character.svg') }}" alt="Cat" class="celebration-character">
+            <img src="{{ url_for('static', filename='images/panda_character.svg') }}" alt="Panda" class="celebration-character">
+        </div>
+    </div>
+
+    <div id="no-meetings" class="empty-state" style="display: none;">
+        <i class="fas fa-calendar-times"></i>
+        <p>No upcoming meetings</p>
+        <p class="empty-state-subtext">Add your first meeting using the form!</p>
+    </div>
+
+    <footer>Developed by Navya Singh</footer>
+
+    <script src="{{ url_for('static', filename='animations.js') }}"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load meetings
+            loadMeetings();
+        });
+    </script>
+</body>
+</html>
