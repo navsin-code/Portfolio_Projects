@@ -3,7 +3,9 @@
 
 AI Posture Police is a web-based application designed to help students and remote workers improve their posture during prolonged sitting.This app provides real-time posture feedback, gamified motivation (e.g.streaks, animations), and productivity tools like meeting reminders and a to-do list. It usesor real data sent from a local machine to track posture, addressing user needs identified through a survey.
 
-✨**Features**< br / >
+✨**Features**
+
+
 **Real-Time Posture Feedback:** Tracks posture as Upright or Slouch using simulated or real Arduino data.
 **Gamification:** Earn streaks for good posture, with animations (e.g. a fox after 30 minutes) and celebrations (e.g. confetti for goals).
 **Meeting Reminders:** Schedule meetings and get browser-based alerts to correct posture during online classes.
@@ -12,6 +14,8 @@ AI Posture Police is a web-based application designed to help students and remot
 **Privacy-Focused:** Non-invasive design (no cameras) with offline functionality for core features.
 
 📋 **Prerequisites**
+
+
 To run this project, you'll need:
 
 **Python 3.10+:** For running the Flask app locally.
@@ -19,12 +23,15 @@ To run this project, you'll need:
 
 🛠️ **Installation**
 
+
 **Clone the Repository:**
 '''git clone https://github.com/yourusername/ai-posture-police.git
 cd ai-posture-police'''
 
 
 **Install Dependencies:**
+
+
 '''pip install -r requirements.txt'''
 
 **The requirements.txt includes:**
@@ -42,7 +49,9 @@ Use the send_arduino_data.py script to send real data to the cloud app (see Usag
 
 
 
-🚀** Usage**
+🚀**Usage**
+
+
 Running Locally
 
 **Start the Flask App:**
@@ -65,6 +74,8 @@ Ensure your Arduino is connected and the app_url in the script points to your de
 
 
 📂 **Project Structure**
+
+
 ai-posture-police/
 ├── main.py              # Flask app
 ├── send_arduino_data.py # Script to send real Arduino data (run locally)
