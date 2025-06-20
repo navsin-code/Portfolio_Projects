@@ -1,7 +1,7 @@
 **AI Posture Police**
 AI Posture Police is a web-based application designed to help students and remote workers improve their posture during prolonged sitting.This app provides real-time posture feedback, gamified motivation (e.g.streaks, animations), and productivity tools like meeting reminders and a to-do list. It usesor real data sent from a local machine to track posture, addressing user needs identified through a survey.
 
-✨** Features**
+✨**Features**
 **Real-Time Posture Feedback:** Tracks posture as Upright or Slouch using simulated or real Arduino data.
 **Gamification:** Earn streaks for good posture, with animations (e.g. a fox after 30 minutes) and celebrations (e.g. confetti for goals).
 **Meeting Reminders:** Schedule meetings and get browser-based alerts to correct posture during online classes.
